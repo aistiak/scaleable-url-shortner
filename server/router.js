@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { redisClient } = require("./redis");
-const { zkClient } = require("./setUpZookeeper");
-
+const { zkClient } = require("./libs/setUpZookeeper");
+const {getCount} = require("./libs/getCount")
 const router = new Router()
 
 router.get(`/`,function(req,res,next){
@@ -37,6 +37,16 @@ router.get(`/config`,function(req,res,next){
         return res.status(200).json(JSON.parse(data.toString()))
     })
     // return config ;
+})
+
+router.get('/count',async (req,res,next)=>{
+    try {
+
+        const inc = await getCount(redisClient,'100_200')
+        return res.status(200).json({inc})
+    }catch(err){
+        next(err)
+    }
 })
 
 module.exports = {

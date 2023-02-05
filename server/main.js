@@ -1,7 +1,7 @@
 const express = require('express')
 const { router } = require('./router')
 const { setupRedis } = require('./redis')
-const { setUpZookeeper } = require('./setUpZookeeper')
+const { setUpZookeeper } = require('./libs/setUpZookeeper')
 const { setUpConfig } = require('./setup')
 
 const app = new express() 
