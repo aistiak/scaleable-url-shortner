@@ -1,7 +1,7 @@
 var zookeeper = require('node-zookeeper-client');
 
 var client = zookeeper.createClient('localhost:2181');
-var path = "/poc/b";
+var path = "/poc";
 
 client.once('connected', function () {
     console.log('Connected to the server.');

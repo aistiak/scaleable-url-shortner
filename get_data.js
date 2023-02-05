@@ -23,7 +23,7 @@ function getData(client, path) {
                 data ? data : undefined,
                 stat.version
             );
-            console.log(JSON.parse(data).ranges)
+            // console.log(JSON.parse(data).ranges)
         }
     );
 }
