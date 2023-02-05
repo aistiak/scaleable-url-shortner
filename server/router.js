@@ -1,0 +1,44 @@
+const { Router } = require("express");
+const { redisClient } = require("./redis");
+const { zkClient } = require("./setUpZookeeper");
+
+const router = new Router()
+
+router.get(`/`,function(req,res,next){
+
+    return res.status(200).json({
+        message : 'ok'
+    })
+})
+
+router.get('/set',async function(req,res,next){
+
+    // console.log(req.query)
+    const {key,val} = req.query
+    console.log(req.query)
+    await redisClient.set(req.query.key,req.query.val)
+    return res.sendStatus(200)
+})
+
+router.get('/get',async function(req,res,next){
+    console.log(req.query.key)
+    const val = await redisClient.get(req.query.key)
+    return res.status(200).json({val})
+})
+
+router.get(`/config`,function(req,res,next){
+
+    
+    zkClient.getData('/poc',function(err, data, stat){
+        if(err){
+            return res.status(400).json({})
+        }
+        console.log(data)
+        return res.status(200).json(JSON.parse(data.toString()))
+    })
+    // return config ;
+})
+
+module.exports = {
+    router
+}
