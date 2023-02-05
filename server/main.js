@@ -3,6 +3,7 @@ const { router } = require('./router')
 const { setupRedis } = require('./redis')
 const { setUpZookeeper } = require('./libs/setUpZookeeper')
 const { setUpConfig } = require('./setup')
+const { setUpManager } = require('./libs/initManager')
 
 const app = new express() 
 const port = process.argv.reverse()[0].split("=")[1] || 3000
@@ -16,6 +17,7 @@ app.listen(port,async ()=>{
     await setupRedis()
     await setUpZookeeper()
     await setUpConfig()
+    await setUpManager()
 })
 
 // console.log(process.args)

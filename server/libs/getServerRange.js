@@ -45,7 +45,7 @@ const getServerRange = async (zkClient, path) => {
                                 console.log(err)
                                 return resolve({success : false})
                             }
-                            return resolve({ success: true })
+                            return resolve({ success: true , range : t.id })
                         })
                     } else {
                         console.log(` --- no more ranges are available ---`)
@@ -70,11 +70,11 @@ module.exports = {
     getServerRange
 };
 
-(async () => {
+// (async () => {
 
-    await setUpZookeeper()
+//     await setUpZookeeper()
 
-    const r1 = await getServerRange(zkClient, '/poc')
+//     const r1 = await getServerRange(zkClient, '/poc')
 
-    console.log({ r1: r1 })
-})()
+//     console.log({ r1: r1 })
+// })()
