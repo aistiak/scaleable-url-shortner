@@ -12,7 +12,7 @@ class RangeService {
     async getRange() {
 
         const zkClient = this.zkClient
-        const path = this.path 
+        const path = this.path
         return new Promise((resolve, reject) => {
             // get root config 
 
@@ -73,6 +73,41 @@ class RangeService {
 
         })
 
+    }
+
+    async markRangeComplete(range) {
+
+        const zkClient = this.zkClient
+        const path = this.path
+        return new Promise((resolve, reject) => {
+
+            zkClient.getData(
+                path,
+                function (error, rawData, stat) {
+                    if (error) {
+                        return resolve({ success: false })
+                    }
+                    const data = JSON.parse(rawData.toString())
+
+                    const newRanges = data.ranges.map((v) => {
+                        if (v.id == range) {
+                            return { ...v, full: true }
+                        }
+                        return v
+                    });
+                    data.ranges = newRanges
+                    const bufferData = Buffer.from(JSON.stringify(data));
+                    zkClient.setData(path, bufferData, function (err, stat) {
+                        if (err) {
+                            console.log(err)
+                            return resolve({ success: false })
+                        }
+                        return resolve({ success: true })
+                    })
+
+                }
+            )
+        })
     }
 }
 

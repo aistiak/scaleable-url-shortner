@@ -26,11 +26,13 @@ class ManagerService {
     }
 
     async getCount() {
-        console.log(this.rangeService)
+        // console.log(this.rangeService)
         const r = await this.counterService.getCount()
         if (!r.success) {
-            const range = await this.rangeService.getRange()
-            this.counterService = new CounterService(this.redisClient, range)
+            await this.rangeService.markRangeComplete(r.range)
+            const res = await this.rangeService.getRange()
+            // make full true 
+            this.counterService = new CounterService(this.redisClient, res.range)
             const r2 = await this.counterService.getCount()
             if (!r2.success) throw 'error'
             return r2.inc

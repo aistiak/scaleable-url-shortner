@@ -44,7 +44,9 @@ router.get(`/config`,function(req,res,next){
 router.get('/count',async (req,res,next)=>{
     try {
         const inc = await Manager.getCount()
-        return res.status(200).json({inc})
+        const hex = Number(inc).toString(16)
+        console.log(inc,hex)
+        return res.status(200).json({inc:hex})
     }catch(err){
         next(err)
     }

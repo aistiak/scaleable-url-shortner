@@ -6,21 +6,21 @@ var path = "/poc";
 const config = {
   ranges : [
     {
-        id : '100_200' ,
-        from : 100 ,
-        to : 200 ,
+        id : '1005_1010' ,
+        from : 1005 ,
+        to : 1010,
         full : false
     },
     {
-        id : '201_300' ,
-        from : 201 ,
-        to : 300 ,
+        id : '1011_1016' ,
+        from : 1011 ,
+        to : 1016 ,
         full : false
     },
     {
-        id : '301_400' ,
-        from : 301 ,
-        to : 400 ,
+        id : '1017_1022' ,
+        from : 1017 ,
+        to : 1022 ,
         full : false
     }
   ]
