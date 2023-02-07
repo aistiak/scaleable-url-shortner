@@ -32,3 +32,5 @@ http://localhost:8080/commands/connections
 - nginx basic 
 - ts project setup for backend projects 
 - docker and docker compose basic 
+- using mongoodb with typescript 
+- using dotenv and config for projects 
