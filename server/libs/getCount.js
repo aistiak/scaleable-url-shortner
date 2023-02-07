@@ -1,5 +1,5 @@
 
-
+// @ts-nocheck 
 const getCount = async (redisClient, range) => {
 
     const [start,end]  = range.split("_").map(v => Number(v))

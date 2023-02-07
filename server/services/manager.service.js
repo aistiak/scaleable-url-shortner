@@ -1,6 +1,6 @@
 
 
-
+// @ts-nocheck 
 
 const { setUpZookeeper, zkClient } = require("../libs/setUpZookeeper");
 

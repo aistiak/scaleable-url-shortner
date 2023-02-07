@@ -1,3 +1,4 @@
+// @ts-nocheck 
 const {ManagerService} = require("../services/manager.service")
 const { zkClient } = require("./setUpZookeeper")
 const { redisClient } = require("../redis");

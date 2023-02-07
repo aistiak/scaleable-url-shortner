@@ -1,3 +1,4 @@
+// @ts-nocheck 
 const redis = require('redis')
 
 var {createClient} = redis ;

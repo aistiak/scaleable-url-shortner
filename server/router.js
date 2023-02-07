@@ -1,3 +1,4 @@
+// @ts-nocheck 
 const { Router } = require("express");
 const { redisClient } = require("./redis");
 const { zkClient } = require("./libs/setUpZookeeper");

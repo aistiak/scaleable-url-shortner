@@ -1,5 +1,6 @@
 
 
+// @ts-nocheck 
 const setUpConfig = async () =>{
 
 }

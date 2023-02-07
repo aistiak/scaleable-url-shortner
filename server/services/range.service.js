@@ -1,3 +1,4 @@
+// @ts-nocheck 
 
 const zk = require("node-zookeeper-client")
 class RangeService {

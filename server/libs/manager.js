@@ -1,4 +1,4 @@
-
+// @ts-nocheck 
 const manager = async () => {
     const r = await getServerRange(zkClient, "/poc")
     console.log({ r })

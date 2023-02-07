@@ -1,4 +1,5 @@
 
+// @ts-nocheck 
 
 const zk = require('node-zookeeper-client');
 var crypto = require('crypto');

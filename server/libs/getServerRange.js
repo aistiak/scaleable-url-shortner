@@ -1,3 +1,4 @@
+// @ts-nocheck 
 const { zkClient, setUpZookeeper } = require("./setUpZookeeper")
 const zk = require("node-zookeeper-client")
 const crypto = require("crypto")
