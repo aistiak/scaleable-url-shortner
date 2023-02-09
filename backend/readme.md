@@ -34,3 +34,5 @@ http://localhost:8080/commands/connections
 - docker and docker compose basic 
 - using mongoodb with typescript 
 - using dotenv and config for projects 
+- different types of oauth flow 
+- github api 
