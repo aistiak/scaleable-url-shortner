@@ -5,11 +5,21 @@ import { Cookies } from 'react-cookie'
 import Config from "config";
 
 export default function HomePage() {
-    const CLIENT_ID = Config.GITHUB_OAUTH_CLIENT_ID
+    /* github */
+    const GITHUB_CLIENT_ID = Config.GITHUB_OAUTH_CLIENT_ID
     const BACKEND_URL = Config.BACKEND_URL
-    const REDIRECT_URI = `${Config.BACKEND_URL}/api/auth/github`
-    // const CLIENT_ID = Config.GITHUB_OAUTH_CLIENT_ID
-    // const REDIRECT_URI = "http://localhost:4002/api/auth/github"
+    const GITHUB_REDIRECT_URI = `${Config.BACKEND_URL}/api/auth/github`
+  
+    /*google*/
+
+    const googleOauthQueryParams = {
+        client_id : Config.GOOGLE_OAUTH_CLIENT_ID as string,
+        redirect_uri : Config.GOOGLE_OAUTH_REDIRECT_URL as string,
+        response_type : 'code',
+        scope : ['https://www.googleapis.com/auth/userinfo.email'].join(' ')
+    }
+    const GOOGLE_OAUTH_QUERY_STRING = new URLSearchParams(googleOauthQueryParams)
+    const GOOGLE_OAUTH_URL = `https://accounts.google.com/o/oauth2/auth?${GOOGLE_OAUTH_QUERY_STRING.toString()}`
 
     const [user, setUser] = useState(null)
     useEffect(() => {
@@ -28,17 +38,22 @@ export default function HomePage() {
                 console.log(error)
             }
         })();
-    }, [Config]);
+    }, []);
     return (
         <div>
             {
                 !user ?
                     <div>
                         <div>
-                            <a href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_url=${REDIRECT_URI}&scope=user`} >
+                            <a href={`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_url=${GITHUB_REDIRECT_URI}&scope=user`} >
                                 login with github
                             </a>
 
+                        </div>
+                        <div>
+                            <a href={GOOGLE_OAUTH_URL}>
+                                login with google 
+                            </a>
                         </div>
                     </div> : <div>
                         {/* @ts-ignore */}

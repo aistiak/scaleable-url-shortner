@@ -11,6 +11,8 @@ import querystring from 'querystring';
 import jwt from 'jsonwebtoken'
 import Config from './config';
 const JWT_SECRET = "secret"
+
+
 const router = new Router()
 // router.get(`/`,function(req,res,next){
 
@@ -114,14 +116,14 @@ router.get(`/api/auth/github`, async (req, res, next) => {
         const parsed = querystring.parse(res1.data)
         // console.log({ parsed })
         const res2 = await axios({
-            url: 'https://api.github.com/user',
+            url: 'https://api.github.com/user/emails',
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${parsed.access_token}`
             }
         })
-        // console.log(res2.data)
-        const token = jwt.sign(res2.data, JWT_SECRET)
+        console.log(res2.data[0])
+        const token = jwt.sign(res2.data[0], JWT_SECRET)
         // console.log({ token })
         res.cookie(Config.COOKIE_NAME, token, {
             httpOnly: true,
@@ -133,6 +135,39 @@ router.get(`/api/auth/github`, async (req, res, next) => {
     }
 })
 
+router.get(`/api/auth/google`,async (req,res,next)=>{
+    try {
+        console.log(req.query)
+        const CLIENT_ID = process.env.GOOGLE_OAUTH_CLIENT_ID
+        const CLIENT_SECRET = process.env.GOOGLE_OAUTH_CLIENT_SECRET 
+        const REDIRECT_URL = process.env.GOOGLE_OAUTH_REDIRECT_URL
+        console.log({
+            client_id : CLIENT_ID,
+            client_secret : CLIENT_SECRET ,
+            code : req.query.code ,
+            grant_type : 'authorization_code',
+            redirect_uri : REDIRECT_URL
+        })
+        const res1 = await axios({
+            url : `https://oauth2.googleapis.com/token`,
+            method : `POST` ,
+            data : {
+                client_id : CLIENT_ID,
+                client_secret : CLIENT_SECRET ,
+                code : req.query.code ,
+                grant_type : 'authorization_code',
+                redirect_uri : REDIRECT_URL
+            }
+        })
+        console.log(res1.data)
+        return res.status(200).json({
+
+        })
+    }catch(error){
+        console.log(error?.response)
+        next(error)
+    }
+})
 router.get(`/api/user`, (req, res, next) => {
     try {
         const cookie = req.cookies?.[Config.COOKIE_NAME]

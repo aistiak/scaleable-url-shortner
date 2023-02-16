@@ -36,3 +36,4 @@ http://localhost:8080/commands/connections
 - using dotenv and config for projects 
 - different types of oauth flow 
 - github api 
+- openssl https 
