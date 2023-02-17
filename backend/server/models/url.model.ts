@@ -1,14 +1,19 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 
 
-interface IUrl {
-    url : string ;
-    hash : string ;
-}
+// interface IUrl {
+//     url : string ;
+//     hash : string ;
+   
+// }
 
-const UrlSchema = new Schema<IUrl>({
+const UrlSchema = new Schema({
     url : {type: String , required : true} ,
-    hash : {type : String , required : true}
+    hash : {type : Number , required : true},
+    user : {
+        type : mongoose.Types.ObjectId ,
+        ref : 'user'
+    }
 });
 
 

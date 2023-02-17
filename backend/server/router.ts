@@ -10,7 +10,9 @@ import axios from 'axios';
 import querystring from 'querystring';
 import jwt from 'jsonwebtoken'
 import Config from './config';
-const JWT_SECRET = "secret"
+import UserModel from './models/user.model';
+import AuthMiddleware from './libs/AuthMiddleware';
+export const JWT_SECRET = "secret"
 
 
 const router = new Router()
@@ -60,7 +62,7 @@ const router = new Router()
 //     }
 // })
 
-router.get(`/srt-url`, async (req, res, next) => {
+router.get(`/srt-url`, AuthMiddleware,async (req, res, next) => {
     try {
 
         const { u = '' } = req.query
@@ -69,11 +71,19 @@ router.get(`/srt-url`, async (req, res, next) => {
         const hash = Number(inc).toString(16)
         const url = new UrlModel({
             url: u,
-            hash
+            hash : inc ,
+            user : req._user._id
         })
         await url.save()
+        await UserModel.findOneAndUpdate(req._user._id,{
+            $push : {
+                // @ts-ignore
+                urls : url._id
+            }
+        })
         return res.status(200).json({ url: `http://localhost:3000/${hash}` })
     } catch (error) {
+        console.log(error)
         next(error)
     }
 })
@@ -95,7 +105,7 @@ router.get(`/:q`, async (req, res, next) => {
 router.get(`/api/auth/github`, async (req, res, next) => {
 
     try {
-        console.log({Config})
+        console.log({ Config })
         const CLIENT_ID = Config.GITHUB_OAUTH_CLIENT_ID
         const CLIENT_SECRET = Config.GITHUB_OAUTH_CLIENT_SECRET
 
@@ -123,7 +133,22 @@ router.get(`/api/auth/github`, async (req, res, next) => {
             }
         })
         console.log(res2.data[0])
-        const token = jwt.sign(res2.data[0], JWT_SECRET)
+        const data = res2.data[0] 
+        const email = data.email
+        console.log({email})
+        let user = (await UserModel.findOne({email}))?.toObject() 
+        if(!user){
+            console.log(` --- user not found creating new user ----`)
+            const newUser = new UserModel({
+                name : '' ,
+                email,
+                urls : []
+            })
+            await newUser.save()
+            user = newUser 
+        }
+        console.log({user})
+        const token = jwt.sign({user}, JWT_SECRET)
         // console.log({ token })
         res.cookie(Config.COOKIE_NAME, token, {
             httpOnly: true,
@@ -135,40 +160,54 @@ router.get(`/api/auth/github`, async (req, res, next) => {
     }
 })
 
-router.get(`/api/auth/google`,async (req,res,next)=>{
+router.get(`/api/auth/google`, async (req, res, next) => {
     try {
         console.log(req.query)
         const CLIENT_ID = process.env.GOOGLE_OAUTH_CLIENT_ID
-        const CLIENT_SECRET = process.env.GOOGLE_OAUTH_CLIENT_SECRET 
+        const CLIENT_SECRET = process.env.GOOGLE_OAUTH_CLIENT_SECRET
         const REDIRECT_URL = process.env.GOOGLE_OAUTH_REDIRECT_URL
         console.log({
-            client_id : CLIENT_ID,
-            client_secret : CLIENT_SECRET ,
-            code : req.query.code ,
-            grant_type : 'authorization_code',
-            redirect_uri : REDIRECT_URL
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            code: req.query.code,
+            grant_type: 'authorization_code',
+            redirect_uri: REDIRECT_URL
         })
         const res1 = await axios({
-            url : `https://oauth2.googleapis.com/token`,
-            method : `POST` ,
-            data : {
-                client_id : CLIENT_ID,
-                client_secret : CLIENT_SECRET ,
-                code : req.query.code ,
-                grant_type : 'authorization_code',
-                redirect_uri : REDIRECT_URL
+            url: `https://oauth2.googleapis.com/token`,
+            method: `POST`,
+            data: {
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
+                code: req.query.code,
+                grant_type: 'authorization_code',
+                redirect_uri: REDIRECT_URL
             }
         })
         console.log(res1.data)
-        return res.status(200).json({
-
+        console.log(res1.data.access_token)
+        const email = jwt.decode(res1.data.id_token).email
+        console.log({ email })
+        const token = jwt.sign({ email }, JWT_SECRET)
+        // console.log({ token })
+        console.log({token})
+        res.cookie(Config.COOKIE_NAME, token, {
+            httpOnly: true,
+            domain: Config.FRONTEND_DOMAIN,
+            sameSite : 'None'
         })
-    }catch(error){
+        return res.redirect(301, `${Config.FRONTEND_URL}/home`) // does not set cookie in ngrok
+    } catch (error) {
         console.log(error?.response)
         next(error)
     }
 })
-router.get(`/api/user`, (req, res, next) => {
+
+
+router.get(`/test/auth`,AuthMiddleware,(req,res,next)=> {
+    return res.status(200).json({})
+})
+router.get(`/api/user`, AuthMiddleware,(req, res, next) => {
     try {
         const cookie = req.cookies?.[Config.COOKIE_NAME]
         // console.log({ cookie })
@@ -183,6 +222,23 @@ router.get(`/api/user`, (req, res, next) => {
 router.get(`/api/logout`, (req, res, next) => {
     res.clearCookie(Config.COOKIE_NAME)// ,{domain : 'localhost',path : '/'})
     return res.sendStatus(200)
+})
+
+
+router.get(`/api/user/urls`,AuthMiddleware,async (req,res,next)=> {
+    try {
+        const user = (await UserModel.findById(req._user._id))?.toObject()
+        console.log(user.urls )
+        const urls = await UrlModel.find({
+            _id : {
+                $in : user?.urls
+            }
+        })
+    
+        return res.status(200).json({urls})
+    }catch(error){
+        next(error)
+    }
 })
 
 module.exports = {
