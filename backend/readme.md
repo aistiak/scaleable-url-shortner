@@ -33,7 +33,12 @@ http://localhost:8080/commands/connections
 - ts project setup for backend projects 
 - docker and docker compose basic 
 - using mongoodb with typescript 
-- using dotenv and config for projects 
+- using dotenv and config for projects * 
 - different types of oauth flow 
-- github api 
+- github api * 
 - openssl https 
+
+### react related 
+- react context api 
+- redux , thunk , saga [advance]
+- redux toolkit 

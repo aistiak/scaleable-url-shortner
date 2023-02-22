@@ -2,6 +2,7 @@
 // dotenv.config({path : `.env.${process.env.NODE_ENV}`})
 
 const Config = {
+    FRONTEEND_DOMAIN : `http://localhost:4001` ,
     BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
     GITHUB_OAUTH_CLIENT_ID: process.env.NEXT_PUBLIC_GITHUB_OAUTH_CLIENT_ID,
 

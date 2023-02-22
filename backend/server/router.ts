@@ -81,7 +81,7 @@ router.get(`/srt-url`, AuthMiddleware,async (req, res, next) => {
                 urls : url._id
             }
         })
-        return res.status(200).json({ url: `http://localhost:3000/${hash}` })
+        return res.status(200).json(url)
     } catch (error) {
         console.log(error)
         next(error)
@@ -95,7 +95,8 @@ router.get(`/:q`, async (req, res, next) => {
         const url = (await UrlModel.findOne({ hash: q }))?.toObject()
         console.log(url)
         if (!url) return res.sendStatus(404)
-        return res.redirect(301, url.url)
+        // return res.redirect(301, url.url)
+        return res.status(200).json(url)
     } catch (error) {
         next(error)
     }
@@ -154,7 +155,7 @@ router.get(`/api/auth/github`, async (req, res, next) => {
             httpOnly: true,
             domain: Config.FRONTEND_DOMAIN
         })
-        return res.redirect(301, `${Config.FRONTEND_URL}/home`)
+        return res.redirect(301, `${Config.FRONTEND_URL}/`)
     } catch (error) {
         next(error)
     }

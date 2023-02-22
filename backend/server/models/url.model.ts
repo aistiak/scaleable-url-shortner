@@ -9,7 +9,7 @@ import mongoose, { model, Schema } from "mongoose";
 
 const UrlSchema = new Schema({
     url : {type: String , required : true} ,
-    hash : {type : Number , required : true},
+    hash : {type : String , required : true},
     user : {
         type : mongoose.Types.ObjectId ,
         ref : 'user'

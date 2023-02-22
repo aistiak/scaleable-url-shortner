@@ -1,10 +1,14 @@
-import Image from 'next/image'
+"use client"
 import { Inter } from '@next/font/google'
-import styles from './page.module.css'
+// import styles from './page.module.css'
 import HomePage from '@/pages/home'
+import { createContext, useState } from 'react'
 
 
 const inter = Inter({ subsets: ['latin'] })
+
+// @ts-ignore
+export const AppContext = createContext({})
 
 export default function Home() {
   // return (
@@ -90,5 +94,10 @@ export default function Home() {
   //     </div>
   //   </main>
   // )
-  return <HomePage/>
+  const [context,setContext] = useState({
+    user: null 
+  })
+  return <AppContext.Provider value={{context,setContext}}>
+    <HomePage />
+  </AppContext.Provider >
 }
