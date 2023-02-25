@@ -16,12 +16,10 @@ export const JWT_SECRET = "secret"
 
 
 const router = new Router()
-// router.get(`/`,function(req,res,next){
+router.get(`/`,function(req,res,next){
 
-//     return res.status(200).json({
-//         message : 'ok'
-//     })
-// })
+    return res.sendStatus(200);
+})
 
 // router.get('/set',async function(req,res,next){
 

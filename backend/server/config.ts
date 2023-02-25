@@ -10,7 +10,9 @@ const Config = {
     FRONTEND_URL: process.env.FRONTEND_URL ,
     MONGO_DB_URL : process.env.MONGO_DB_URL,
     COOKIE_NAME : process.env.COOKIE_NAME,
-    JWT_SECRET : process.env.JWT_SECRET
+    JWT_SECRET : process.env.JWT_SECRET,
+    REDIS_URL : process.env.REDIS_URL ,
+    ZOOKEEPER_URL : process.env.ZOOKEEPER_URL
 }
 
 export default Config 

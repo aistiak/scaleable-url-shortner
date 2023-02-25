@@ -8,7 +8,10 @@ const { redisClient } = require("../redis");
 const Manager = new ManagerService(zkClient,redisClient)
 
 const setUpManager = async () => {
+    console.log(` --- setting up manager -- `)
     await Manager.setUp()
+    console.log(` --- manager set up ---`)
+    // console.log(Manager)
 }
 
 module.exports = {

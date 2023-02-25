@@ -1,0 +1,63 @@
+# https://www.digitalocean.com/community/tutorials/containerizing-a-node-js-application-for-development-with-docker-compose
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  database:
+    image: mongo:latest
+    ports: 
+     - 27017:27017
+    networks:
+     - app-network
+  zookeeper:
+    image: zookeeper:latest
+    ## need to specity RUN create poc node and set data 
+    ports:
+      - 2181:2181
+      - 8080:8080
+    networks:
+      - app-network
+  redis: 
+    image: redis/redis-stack:latest
+    ports:
+      - 6379:6379
+      - 8001:8001
+    networks:
+      - app-network
+  backend:
+    build: 
+      context: ./backend
+      dockerfile : Dockerfile
+    ports:
+      - 4002:4002 
+    environment:
+      - MONGO_DB_URL=mongodb://database:27017
+      - ZOOKEEPER_URL=zookeeper:2181
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./backend:/home/node/app
+      - ./backend/node_modules:/home/node/app/node_modules
+    networks:
+      - app-network
+    depends_on:
+      - database
+      - redis
+      - zookeeper
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 4001:4001
+    volumes:
+      - ./frontend:/home/node/app
+      - ./frontend/node_modules:/home/node/app/node_modules    
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:4002
+    networks:
+     - app-network
+
+
+  

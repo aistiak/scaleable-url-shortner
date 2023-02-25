@@ -1,3 +1,5 @@
+"use client"
+
 import { AppContext } from "@/app/page";
 import { useContext, useEffect, useState } from "react";
 import axios from 'axios';

@@ -34,6 +34,6 @@ const CB = async () => {
     await setupRedis()
     await setUpZookeeper()
     await setUpConfig()
-    await setUpManager()
+    await setUpManager() 
 }
 app.listen(port,CB)

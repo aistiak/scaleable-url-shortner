@@ -28,6 +28,9 @@ class RangeService {
                     console.log(`inside data `)
 
                     if (error) {
+                        
+                        console.log(error)
+                        console.log(` --- an exception occurred in RangeService getRange --- `)
                         return resolve({ success: false, errors: ['error getting range'] })
                     }
 
