@@ -24,13 +24,18 @@ const DashboardPage = () => {
     const [urls, setUrls] = useState([])
     useEffect(() => {
         (async () => {
-            const res1 = await axios({
-                url: `${Config.BACKEND_URL}/api/user/urls`,
-                method: `GET`,
-                withCredentials: true
-            })
-            console.dir(res1.data.urls)
-            setUrls(res1.data.urls)
+            try {
+                const res1 = await axios({
+                    url: `${Config.BACKEND_URL}/api/user/urls`,
+                    method: `GET`,
+                    withCredentials: true
+                })
+                console.dir(res1.data.urls)
+                setUrls(res1.data.urls)
+            }catch(error){
+                console.log(error)
+            }
+
         })()
     }, [])
     return (
@@ -42,12 +47,12 @@ const DashboardPage = () => {
             <div>
                 <button onClick={
                     () => {
-                        setContext({ user: null })
                         axios({
                             url: `${Config.BACKEND_URL}/api/logout`,
                             method: 'GET',
                             withCredentials: true, // without this wont log out
                         })
+                        setContext({ user: null })
                     }
                 }> logout</button>
             </div>

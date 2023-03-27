@@ -14,12 +14,14 @@ services:
   zookeeper:
     image: zookeeper:latest
     ## need to specity RUN create poc node and set data 
+    ## zkClient
     ports:
       - 2181:2181
       - 8080:8080
     networks:
       - app-network
   redis: 
+    # :todo make redis persistent 
     image: redis/redis-stack:latest
     ports:
       - 6379:6379
