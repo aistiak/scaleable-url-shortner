@@ -1,6 +1,6 @@
 import { AppContext } from "@/app/page";
 import { useContext } from "react";
-import DashboardPage from "./dashboard";
+import DashboardPage from "./dashboard2";
 import LoginPage from "./login";
 import Login from "./login";
 
