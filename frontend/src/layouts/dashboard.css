@@ -31,7 +31,10 @@ body {
     margin-top: 2%;
 }
 
-.logout > a {
+.logout > button {
     text-decoration: none;
     color: black;
+    border: none;
+    background: transparent;
+    font-size: 18px;
 }

@@ -220,6 +220,10 @@ router.get(`/api/user`, AuthMiddleware, (req, res, next) => {
 
 router.get(`/api/logout`, (req, res, next) => {
     res.clearCookie(Config.COOKIE_NAME)// ,{domain : 'localhost',path : '/'})
+    // res.cookie(Config.COOKIE_NAME, token, {
+    //     httpOnly: true,
+    //     domain: Config.FRONTEND_DOMAIN
+    // })
     return res.sendStatus(200)
 })
 

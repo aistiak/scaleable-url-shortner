@@ -102,7 +102,7 @@ export default function Home() {
   const notify = () => toast("Wow so easy!");
   return <AppContext.Provider value={{ context, setContext }}>
     <HomePage />
-    <button onClick={notify}>Notify!</button>
+    {/* <button onClick={notify}>Notify!</button> */}
    
   </AppContext.Provider >
 }
