@@ -16,7 +16,7 @@ export const JWT_SECRET = "secret"
 
 
 const router = new Router()
-router.get(`/`,function(req,res,next){
+router.get(`/`, function (req, res, next) {
 
     return res.sendStatus(200);
 })
@@ -60,7 +60,7 @@ router.get(`/`,function(req,res,next){
 //     }
 // })
 
-router.get(`/srt-url`, AuthMiddleware,async (req, res, next) => {
+router.get(`/srt-url`, AuthMiddleware, async (req, res, next) => {
     try {
 
         const { u = '' } = req.query
@@ -69,14 +69,14 @@ router.get(`/srt-url`, AuthMiddleware,async (req, res, next) => {
         const hash = Number(inc).toString(16)
         const url = new UrlModel({
             url: u,
-            hash : inc ,
-            user : req._user._id
+            hash: inc,
+            user: req._user._id
         })
         await url.save()
-        await UserModel.findOneAndUpdate(req._user._id,{
-            $push : {
+        await UserModel.findOneAndUpdate(req._user._id, {
+            $push: {
                 // @ts-ignore
-                urls : url._id
+                urls: url._id
             }
         })
         return res.status(200).json(url)
@@ -132,22 +132,22 @@ router.get(`/api/auth/github`, async (req, res, next) => {
             }
         })
         console.log(res2.data[0])
-        const data = res2.data[0] 
+        const data = res2.data[0]
         const email = data.email
-        console.log({email})
-        let user = (await UserModel.findOne({email}))?.toObject() 
-        if(!user){
+        console.log({ email })
+        let user = (await UserModel.findOne({ email }))?.toObject()
+        if (!user) {
             console.log(` --- user not found creating new user ----`)
             const newUser = new UserModel({
-                name : '' ,
+                name: '',
                 email,
-                urls : []
+                urls: []
             })
             await newUser.save()
-            user = newUser 
+            user = newUser
         }
-        console.log({user})
-        const token = jwt.sign({user}, JWT_SECRET)
+        console.log({ user })
+        const token = jwt.sign({ user }, JWT_SECRET)
         // console.log({ token })
         res.cookie(Config.COOKIE_NAME, token, {
             httpOnly: true,
@@ -189,11 +189,11 @@ router.get(`/api/auth/google`, async (req, res, next) => {
         console.log({ email })
         const token = jwt.sign({ email }, JWT_SECRET)
         // console.log({ token })
-        console.log({token})
+        console.log({ token })
         res.cookie(Config.COOKIE_NAME, token, {
             httpOnly: true,
             domain: Config.FRONTEND_DOMAIN,
-            sameSite : 'None'
+            sameSite: 'None'
         })
         return res.redirect(301, `${Config.FRONTEND_URL}/home`) // does not set cookie in ngrok
     } catch (error) {
@@ -203,10 +203,10 @@ router.get(`/api/auth/google`, async (req, res, next) => {
 })
 
 
-router.get(`/test/auth`,AuthMiddleware,(req,res,next)=> {
+router.get(`/test/auth`, AuthMiddleware, (req, res, next) => {
     return res.status(200).json({})
 })
-router.get(`/api/user`, AuthMiddleware,(req, res, next) => {
+router.get(`/api/user`, AuthMiddleware, (req, res, next) => {
     try {
         const cookie = req.cookies?.[Config.COOKIE_NAME]
         // console.log({ cookie })
@@ -224,18 +224,27 @@ router.get(`/api/logout`, (req, res, next) => {
 })
 
 
-router.get(`/api/user/urls`,AuthMiddleware,async (req,res,next)=> {
+router.get(`/api/user/urls`, AuthMiddleware, async (req, res, next) => {
     try {
+        const { perPage = 10, currentPage = 1, } = req.query;
         const user = (await UserModel.findById(req._user._id))?.toObject()
-        console.log(user.urls )
+        const skip = (currentPage - 1) * perPage;
+        const totalItems = user?.urls.length || 0
+
+        console.log(user.urls)
         const urls = await UrlModel.find({
-            _id : {
-                $in : user?.urls
+            _id: {
+                $in: user?.urls
             }
+        }).skip(skip).limit(perPage)
+
+        return res.status(200).json({ 
+            urls, 
+            currentPage, 
+            perPage, 
+            totalItems 
         })
-    
-        return res.status(200).json({urls})
-    }catch(error){
+    } catch (error) {
         next(error)
     }
 })
