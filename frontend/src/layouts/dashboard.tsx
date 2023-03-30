@@ -9,7 +9,7 @@ function DashboardLayout({ children }: { children: any }) {
     return (
         <div className="main">
             <div className="header">
-                <div className="greet">Welcome Istiak </div>
+                <div className="greet">Welcome {context?.user?.name} </div>
                 <div className="logout"> 
                 <button onClick={async () => {
                     await axios({

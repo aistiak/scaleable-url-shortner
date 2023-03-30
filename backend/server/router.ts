@@ -230,9 +230,9 @@ router.get(`/api/logout`, (req, res, next) => {
 
 router.get(`/api/user/urls`, AuthMiddleware, async (req, res, next) => {
     try {
-        const { perPage = 10, currentPage = 1, } = req.query;
+        // const { perPage = 10, currentPage = 1, } = req.query;
         const user = (await UserModel.findById(req._user._id))?.toObject()
-        const skip = (currentPage - 1) * perPage;
+        // const skip = (currentPage - 1) * perPage;
         const totalItems = user?.urls.length || 0
 
         console.log(user.urls)
@@ -240,12 +240,13 @@ router.get(`/api/user/urls`, AuthMiddleware, async (req, res, next) => {
             _id: {
                 $in: user?.urls
             }
-        }).skip(skip).limit(perPage)
+        }).sort({createdAt : -1})
+        // .skip(skip).limit(perPage)
 
         return res.status(200).json({ 
             urls, 
-            currentPage, 
-            perPage, 
+            // currentPage, 
+            // perPage, 
             totalItems 
         })
     } catch (error) {
