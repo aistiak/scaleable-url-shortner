@@ -23,6 +23,12 @@ just run `docker-compose up`
 ![image](https://user-images.githubusercontent.com/30620860/230019054-698603d2-a324-4fe6-8a28-0d0785cd94e2.png)
 
 
+## todos 
+- add analytics for url (access history , count , location , device etc )
+- customized shortened url 
+- delete / disable url 
+
+
 
 
 
