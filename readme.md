@@ -1,8 +1,7 @@
-# to see list of connected nodes in Zoo-Keeper
-http://localhost:8080/commands/connections 
+## Scaleable URL Shortner 
 
-# packages
-
+A url shortener with dynamic number backend instances with optimized strategies for
+lower latency with the help of distributed config manager (apache zookeeper) and in memory cache (redis)
 
 ## how to run 
 ### with docker-compose 
