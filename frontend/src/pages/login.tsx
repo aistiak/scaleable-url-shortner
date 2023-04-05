@@ -5,6 +5,7 @@ import { Cookies } from 'react-cookie'
 import Config from "config";
 import { AppContext } from "@/app/page";
 import './login.css'
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
     /* github */
@@ -44,11 +45,14 @@ export default function LoginPage() {
             }
         })();
     }, []);
+
+     
+    
     return (
         <div>
             {
                 !context?.user &&
-                <div className="main">
+                <div className="login_main">
                     <div>
                         {/* <h2>URL SHORTNER</h2> */}
                     </div>

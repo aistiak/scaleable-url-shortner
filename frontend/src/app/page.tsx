@@ -96,13 +96,17 @@ export default function Home() {
   //   </main>
   // )
   const [context, setContext] = useState({
-    user: null
+    user: null,
+    data : {
+      urls : [] ,
+      totalItems : 0 ,
+    }
   })
 
   const notify = () => toast("Wow so easy!");
   return <AppContext.Provider value={{ context, setContext }}>
     <HomePage />
-    <button onClick={notify}>Notify!</button>
+    {/* <button onClick={notify}>Notify!</button> */}
    
   </AppContext.Provider >
 }
