@@ -9,15 +9,23 @@ services:
     image: mongo:latest
     ports: 
      - 27017:27017
+    volumes:
+      - ./mongodb:/data
     networks:
      - app-network
   zookeeper:
-    image: zookeeper:latest
+    # image: zookeeper:latest
+    build:
+      context: ./zookeeper
+      dockerfile: Dockerfile 
     ## need to specity RUN create poc node and set data 
     ## zkClient
     ports:
       - 2181:2181
       - 8080:8080
+    volumes:
+      - ./zookeeper/data:/data
+      - ./zookeeper/datalog:/datalog
     networks:
       - app-network
   redis: 
@@ -26,6 +34,9 @@ services:
     ports:
       - 6379:6379
       - 8001:8001
+    volumes:
+      - ./redis:/data
+    # command: redis-server --appendonly yes
     networks:
       - app-network
   backend:
