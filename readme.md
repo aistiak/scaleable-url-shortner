@@ -1,8 +1,7 @@
-# to see list of connected nodes in Zoo-Keeper
-http://localhost:8080/commands/connections 
+## Scaleable URL Shortner 
 
-# packages
-
+A url shortener with dynamic number backend instances with optimized strategies for
+lower latency with the help of distributed config manager (apache zookeeper) and in memory cache (redis)
 
 ## how to run 
 ### with docker-compose 
@@ -15,6 +14,20 @@ just run `docker-compose up`
 - emphaeal node will contain the currently being used range 
 - available range will be detemined by cross matching empheral nodes and root node data 
 - a server will store its count in redis 
+
+### snaps
+
+![image](https://user-images.githubusercontent.com/30620860/230019115-54e516fc-5843-410a-8e91-02d4cefff430.png)
+
+![image](https://user-images.githubusercontent.com/30620860/230019054-698603d2-a324-4fe6-8a28-0d0785cd94e2.png)
+
+
+## todos 
+- add analytics for url (access history , count , location , device etc )
+- customized shortened url 
+- delete / disable url 
+
+
 
 
 
