@@ -125,4 +125,8 @@ set /test count=1
 ```
 ![image](https://user-images.githubusercontent.com/30620860/231446475-d264b211-af06-46d7-a2d6-9abccb22fcf3.png)
 
+### References 
+- https://zookeeper.apache.org/doc/r3.8.1/zookeeperOver.html 
+- https://hub.docker.com/_/zookeeper
+
 
