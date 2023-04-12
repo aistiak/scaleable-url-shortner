@@ -33,7 +33,7 @@ it is a distributed config manager , a Distributed Coordination Service for Dist
 - so just like tree there are nodes and child nodes 
 - a node can have both data and other child nodes
 - nodes that contain data are called znodes
-![image](https://user-images.githubusercontent.com/30620860/231446573-87581555-9bf3-4cd4-b320-0f6cc0f8494d.png)
+- ![image](https://user-images.githubusercontent.com/30620860/231446573-87581555-9bf3-4cd4-b320-0f6cc0f8494d.png)
 
 - zookeeper data is kept on memory for low latancy 
 - zookeeper is replicated 
