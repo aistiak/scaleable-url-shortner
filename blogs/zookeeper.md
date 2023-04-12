@@ -33,6 +33,8 @@ it is a distributed config manager , a Distributed Coordination Service for Dist
 - so just like tree there are nodes and child nodes 
 - a node can have both data and other child nodes
 - nodes that contain data are called znodes
+![image](https://user-images.githubusercontent.com/30620860/231446573-87581555-9bf3-4cd4-b320-0f6cc0f8494d.png)
+
 - zookeeper data is kept on memory for low latancy 
 - zookeeper is replicated 
 - clients maintain a TPC connection with server to send , recive request and get updates 
@@ -121,4 +123,6 @@ now on the previous termianl set new data for /test node , and we would see that
 ```
 set /test count=1
 ```
+![image](https://user-images.githubusercontent.com/30620860/231446475-d264b211-af06-46d7-a2d6-9abccb22fcf3.png)
+
 
