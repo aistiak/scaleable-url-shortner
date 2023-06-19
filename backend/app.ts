@@ -3,7 +3,9 @@ import RouterInterface from './server/interfaces/router.interface';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import Config from './server/config'
-import DBConnectionInterface from './server/interfaces/dbconnection.interface';
+import ConnectionInterface from './server/interfaces/connection.interface';
+import ManagerService from './server/services/manager.service'
+
 /**
  * every dependeciy will be passed inside App , it will not initiate any 
  * 
@@ -17,21 +19,33 @@ class App {
     public app: express.Application;
     public port : number;
     public routes: Array<RouterInterface> = [];
-    private dbConnectionClass : DBConnectionInterface
+    private dbConnection : ConnectionInterface ;
+    private redisConnection : ConnectionInterface ;
+    private zookeeperConnection : ConnectionInterface ;
+    private managerService : ManagerService ;
     constructor(
         routes : Array<any>, 
         port : number = 3000 , 
-        dbConnectionClass : DBConnectionInterface
+        dbConnection : ConnectionInterface ,
+        redisConnection : ConnectionInterface ,
+        zookeeperConnection : ConnectionInterface ,
+        managerService :ManagerService 
     ) {
         this.app = express()
         this.port = port
         this.routes = routes
-        this.dbConnectionClass = dbConnectionClass
+        this.dbConnection = dbConnection
+        this.redisConnection = redisConnection
+        this.zookeeperConnection = zookeeperConnection 
+        this.managerService = managerService
         this.init()
     }
 
     private async init(){
-        await this.dbConnectionClass.connect()
+        await this.dbConnection.connect()
+        await this.redisConnection.connect()
+        await this.zookeeperConnection.connect() 
+        await this.managerService.setUp()
         this.app.use(cors({
             origin: Config.FRONTEND_URL,
             credentials: true

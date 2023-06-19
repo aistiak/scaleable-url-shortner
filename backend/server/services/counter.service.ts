@@ -1,10 +1,11 @@
+// @ts-nocheck
+import ConnectionInterface from "../interfaces/connection.interface"
 
-// @ts-nocheck 
 class CounterService {
 
     redisClient
     range
-    constructor(redisClient, range) {
+    constructor(redisClient : ConnectionInterface, range : string ) {
         this.redisClient = redisClient
         this.range = range
     }
@@ -30,6 +31,4 @@ class CounterService {
 }
 
 
-module.exports = {
-    CounterService
-}
+export default CounterService

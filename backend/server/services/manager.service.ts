@@ -1,27 +1,28 @@
+import ConnectionInterface from "../interfaces/connection.interface"
+import RangeService from "./range.service"
+import CounterService from "./counter.service"
 
 
-// @ts-nocheck 
 
-const { setUpZookeeper, zkClient } = require("../libs/setUpZookeeper");
 
-const { RangeService } = require("./range.service");
-const { CounterService } = require("./counter.service");
+
 class ManagerService {
-    rangeService
-    counterService
-    zkClient
-    redisClient
+    rangeService: RangeService
+    counterService: any
+    zkClient: ConnectionInterface
+    redisClient: ConnectionInterface
     path = '/poc'
-    constructor(zkClient, redisClient) {
-        this.rangeService = new RangeService(zkClient, this.path)
+    constructor(zkClient: ConnectionInterface, redisClient: ConnectionInterface, rangeService: RangeService) {
+        this.rangeService = rangeService // new RangeService(zkClient, this.path)
         this.redisClient = redisClient
         this.zkClient = zkClient
+        this.counterService = null
 
     }
 
     async setUp() {
-        const r = await this.rangeService.getRange()
-        console.log({range:r})
+        const r: any = await this.rangeService.getRange()
+        console.log({ range: r })
         this.counterService = new CounterService(this.redisClient, r.range)
     }
 
@@ -30,7 +31,7 @@ class ManagerService {
         const r = await this.counterService.getCount()
         if (!r.success) {
             await this.rangeService.markRangeComplete(r.range)
-            const res = await this.rangeService.getRange()
+            const res :any = await this.rangeService.getRange()
             // make full true 
             this.counterService = new CounterService(this.redisClient, res.range)
             const r2 = await this.counterService.getCount()
@@ -42,7 +43,5 @@ class ManagerService {
 }
 
 
-module.exports = {
-    ManagerService
-}
+export default ManagerService;
 

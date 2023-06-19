@@ -1,8 +1,8 @@
-import DBConnectionInterface from "./server/interfaces/dbconnection.interface";
+import ConnectionInterface from "../server/interfaces/connection.interface";
 import { connect } from 'mongoose';
-import Config from './server/config';
+import Config from '../server/config';
 
-class DBConnectionClass implements DBConnectionInterface {
+class DBConnection implements ConnectionInterface {
 
     async connect() {
         console.log(` -- connecting to database -- `)
@@ -11,4 +11,4 @@ class DBConnectionClass implements DBConnectionInterface {
     }
 }
 
-export default DBConnectionClass
+export default DBConnection

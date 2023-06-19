@@ -116,6 +116,4 @@ class RangeService {
 }
 
 
-module.exports = {
-    RangeService
-}
+export default RangeService ;
