@@ -3,6 +3,7 @@ import { Inter } from '@next/font/google'
 // import styles from './page.module.css'
 import HomePage from '@/pages/home'
 import { createContext, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -94,10 +95,18 @@ export default function Home() {
   //     </div>
   //   </main>
   // )
-  const [context,setContext] = useState({
-    user: null 
+  const [context, setContext] = useState({
+    user: null,
+    data : {
+      urls : [] ,
+      totalItems : 0 ,
+    }
   })
-  return <AppContext.Provider value={{context,setContext}}>
+
+  const notify = () => toast("Wow so easy!");
+  return <AppContext.Provider value={{ context, setContext }}>
     <HomePage />
+    {/* <button onClick={notify}>Notify!</button> */}
+   
   </AppContext.Provider >
 }

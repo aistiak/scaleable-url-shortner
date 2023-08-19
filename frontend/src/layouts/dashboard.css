@@ -1,0 +1,40 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+body {
+    margin :0 ;
+    padding:0;
+    font-family: 'Open Sans', sans-serif;
+}
+.main {
+    /* display: flex;
+    justify-content: space-between;
+    border: 1px solid;
+    margin:0;
+    padding: 0; */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid;
+    height: 40px;
+    background: #e1e1e1;
+    border: none;
+    font-size: 18px;
+}
+.greet , .logout {
+    margin: 10px;
+}
+
+.children {
+    margin-top: 2%;
+}
+
+.logout > button {
+    text-decoration: none;
+    color: black;
+    border: none;
+    background: transparent;
+    font-size: 18px;
+}

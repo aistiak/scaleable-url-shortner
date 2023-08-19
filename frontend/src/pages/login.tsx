@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Cookies } from 'react-cookie'
 import Config from "config";
 import { AppContext } from "@/app/page";
+import './login.css'
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
     /* github */
@@ -43,22 +45,31 @@ export default function LoginPage() {
             }
         })();
     }, []);
+
+     
+    
     return (
         <div>
             {
                 !context?.user &&
-                <div>
+                <div className="login_main">
                     <div>
-                        <a href={`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_url=${GITHUB_REDIRECT_URI}&scope=user`} >
-                            login with github
-                        </a>
+                        {/* <h2>URL SHORTNER</h2> */}
+                    </div>
+                    <div className="login_btns">
+                        <div className="login_btn">
+                            <a href={`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_url=${GITHUB_REDIRECT_URI}&scope=user`} >
+                                Login with Github
+                            </a>
 
+                        </div>
+                        <div className="login_btn">
+                            <a href={GOOGLE_OAUTH_URL}>
+                                Login with Google
+                            </a>
+                        </div>
                     </div>
-                    <div>
-                        <a href={GOOGLE_OAUTH_URL}>
-                            login with google
-                        </a>
-                    </div>
+                    
                 </div>
             }
         </div>

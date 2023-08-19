@@ -9,28 +9,34 @@ services:
     image: mongo:latest
     ports: 
      - 27017:27017
+    volumes:
+      - ./mongodb:/data
     networks:
      - app-network
-  # zookeeper:
-  #   image: zookeeper:latest
-    ## need to specity RUN create poc node and set data 
-    # command: > 
-      #  bash -c " ./bin/zkCli.sh create /poc && ./bin/zkCli.sh set /poc '{ranges : [ { id : '1005_1010' , from : 1005 , to : 1010, full : false }, { id : '1011_1016' , from : 1011 , to : 1016 , full : false }, { id : '1017_1022' , from : 1017 , to : 1022 , full : false } ]}'"      
   zookeeper:
-    build: 
-      context: .
-      dockerfile: zkDockerfile 
-    # command: /bin/sh -c "/entrypoint.sh"
+    # image: zookeeper:latest
+    build:
+      context: ./zookeeper
+      dockerfile: Dockerfile 
+    ## need to specity RUN create poc node and set data 
+    ## zkClient
     ports:
       - 2181:2181
       - 8080:8080
+    volumes:
+      - ./zookeeper/data:/data
+      - ./zookeeper/datalog:/datalog
     networks:
       - app-network
   redis: 
+    # :todo make redis persistent 
     image: redis/redis-stack:latest
     ports:
       - 6379:6379
       - 8001:8001
+    volumes:
+      - ./redis:/data
+    # command: redis-server --appendonly yes
     networks:
       - app-network
   backend:
