@@ -1,0 +1,9 @@
+FROM bitnami/zookeeper:latest
+
+CMD ["zkCli.sh" ,"create" ,"/poc"]  
+# CMD ./bin/zkCli.sh set /poc "{ranges : [ { id : '1005_1010' , from : 1005 , to : 1010, full : false }, { id : '1011_1016' , from : 1011 , to : 1016 , full : false }, { id : '1017_1022' , from : 1017 , to : 1022 , full : false } ]}"
+# COPY zk_entry_point.sh /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
+# ENTRYPOINT "/entrypoint.sh"
+ENV ALLOW_ANONYMOUS_LOGIN=yes
+EXPOSE 2181

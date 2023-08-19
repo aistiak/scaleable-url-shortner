@@ -11,9 +11,16 @@ services:
      - 27017:27017
     networks:
      - app-network
-  zookeeper:
-    image: zookeeper:latest
+  # zookeeper:
+  #   image: zookeeper:latest
     ## need to specity RUN create poc node and set data 
+    # command: > 
+      #  bash -c " ./bin/zkCli.sh create /poc && ./bin/zkCli.sh set /poc '{ranges : [ { id : '1005_1010' , from : 1005 , to : 1010, full : false }, { id : '1011_1016' , from : 1011 , to : 1016 , full : false }, { id : '1017_1022' , from : 1017 , to : 1022 , full : false } ]}'"      
+  zookeeper:
+    build: 
+      context: .
+      dockerfile: zkDockerfile 
+    # command: /bin/sh -c "/entrypoint.sh"
     ports:
       - 2181:2181
       - 8080:8080
@@ -38,7 +45,7 @@ services:
       - REDIS_URL=redis://redis:6379
     volumes:
       - ./backend:/home/node/app
-      - ./backend/node_modules:/home/node/app/node_modules
+      # - ./backend/node_modules:/home/node/app/node_modules
     networks:
       - app-network
     depends_on:
@@ -53,7 +60,7 @@ services:
       - 4001:4001
     volumes:
       - ./frontend:/home/node/app
-      - ./frontend/node_modules:/home/node/app/node_modules    
+      # - ./frontend/node_modules:/home/node/app/node_modules    
     environment:
       - NEXT_PUBLIC_BACKEND_URL=http://localhost:4002
     networks:
