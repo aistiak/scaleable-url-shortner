@@ -1,6 +1,6 @@
 // @ts-nocheck 
 const redis = require('redis');
-const { default: Config } = require('./config');
+const { default: Config } = require('./src/config');
 
 var {createClient} = redis ;
 const redisClient = createClient({  

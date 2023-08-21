@@ -38,7 +38,12 @@ class App {
         this.redisConnection = redisConnection
         this.zookeeperConnection = zookeeperConnection 
         this.managerService = managerService
-        this.init()
+        this.init().then( res => {
+            console.log(` -- setup complete --`)
+        }).catch(e => {
+            console.log(e)
+            console.log(` --- error in setup ---`)
+        })
     }
 
     private async init(){

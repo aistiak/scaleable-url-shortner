@@ -1,4 +1,4 @@
-import { connectToDatabase, MongoConnection } from "./libs/connectToDatabase"
+import { connectToDatabase, MongoConnection } from "./src/libs/connectToDatabase"
 
 
 // @ts-nocheck 
@@ -10,7 +10,7 @@ const { setUpConfig } = require('./setup')
 const { setUpManager } = require('./libs/initManager')
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
-import Config from './config'
+import Config from './src/config'
 const app = new express()
 const port = Config.EXPRESS_PORT // process.argv.reverse()[0].split("=")[1] || 4002 //process.env.SERVER_PORT
 

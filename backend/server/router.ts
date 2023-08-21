@@ -9,9 +9,9 @@ const { UrlModel } = require("./models/url.model");
 import axios from 'axios';
 import querystring from 'querystring';
 import jwt from 'jsonwebtoken'
-import Config from './config';
-import UserModel from './models/user.model';
-import AuthMiddleware from './libs/AuthMiddleware';
+import Config from './src/config';
+import UserModel from './src/models/user.model';
+import AuthMiddleware from './src/libs/AuthMiddleware';
 export const JWT_SECRET = "secret"
 
 
@@ -87,7 +87,7 @@ router.get(`/srt-url`, AuthMiddleware, async (req, res, next) => {
 })
 router.get(`/:q`, async (req, res, next) => {
     try {
-
+        // date , user agent , device , time , location 
         const { q = '' } = req.params
         console.log({ q })
         const url = (await UrlModel.findOne({ hash: q }))?.toObject()
