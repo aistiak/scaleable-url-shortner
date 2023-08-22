@@ -8,7 +8,7 @@ import UrlRouter from "./url.router";
 
 
 const AppRouter = Router();
-// AppRouter.use(AuthMiddleware)
+AppRouter.use(AuthMiddleware)
 AppRouter.use('/auth', AuthRouter);
 AppRouter.use('/url', UrlRouter);
 

@@ -4,11 +4,6 @@ import AppRouter from "./routers/index.router";
 
 
 
-// await connectToDatabase()
-// await setupRedis()
-// await setUpZookeeper()
-// await setUpConfig()
-// await setUpManager() 
 
 const app = new App(AppRouter, 3007)
 

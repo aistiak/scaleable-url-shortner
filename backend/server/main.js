@@ -1,6 +1,5 @@
+"use strict";
 // import { connectToDatabase, MongoConnection } from "./src/libs/connectToDatabase"
-
-
 // // @ts-nocheck 
 // const express = require('express')
 // const { router } = require('./router')
@@ -13,19 +12,13 @@
 // import Config from './src/config'
 // const app = new express()
 // const port = Config.EXPRESS_PORT // process.argv.reverse()[0].split("=")[1] || 4002 //process.env.SERVER_PORT
-
-
-
 // // var credentials = {key: privateKey, cert: certificate};
-
-
 // app.use(cors({
 //     origin: Config.FRONTEND_URL,
 //     credentials: true
 // }))
 // app.use(cookieParser())
 // app.use(router)
-
 // // var httpsServer = https.createServer(credentials, app);
 // const CB = async () => {
 //     console.log(` --- server running ${port} ---`)

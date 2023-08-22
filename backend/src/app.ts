@@ -1,5 +1,9 @@
 
 import express from 'express';
+import { connectToDatabase } from './libs/connectToDatabase';
+import { setUpManager } from './libs/initManager';
+import { setUpZookeeper } from './libs/setUpZookeeper';
+import { setupRedis } from './connections/redis';
 
 
 class App {
@@ -13,10 +17,15 @@ class App {
 
 
     public async serve() {
+        await connectToDatabase()
+        await setupRedis()
+        await setUpZookeeper()
+        // await setUpConfig()
+        await setUpManager()
         this.app.listen(this.port, () => {
             console.log(` --- server started on port ${this.port} ---`)
         })
     }
 }
 
-export default App ;
+export default App;
