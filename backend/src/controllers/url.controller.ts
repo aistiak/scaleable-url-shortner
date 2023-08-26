@@ -2,6 +2,7 @@ import { NextFunction } from "express";
 import UserModel from "../models/user.model";
 import { UrlModel } from "../models/url.model";
 import { Manager } from "../libs/initManager";
+import { UrlStatModel } from "../models/stats.model";
 
 
 
@@ -62,13 +63,44 @@ class UrlController {
 
     public async findUrl(req: any, res: any, next: NextFunction) {
         try {
+            type ReqBody = {
+                os: string;
+                browserInfo: string;
+                userAgent: string;
+                device: string;
+                currentTime: string;
+                userTimezone: string;
+            }
             // date , user agent , device , time , location 
             const { q = '' } = req.params
             console.log({ q })
-            const url = (await UrlModel.findOne({ hash: q }))?.toObject()
+            const url = await UrlModel.findOne({ hash: q }).lean();
             console.log(url)
             if (!url) return res.sendStatus(404)
             // return res.redirect(301, url.url)
+            // store stat 
+            console.log({
+                'req.body' : req.body
+            })
+            const {
+                os,
+                userAgent,
+                device,
+                currentTime,
+                userTimezone
+            } = req.body as ReqBody;
+
+            const urlStat = new UrlStatModel({
+                url : url.url ,
+                hash : url.hash ,
+                urlOf : url.user ,
+                os,
+                userAgent,
+                device,
+                currentTime,
+                userTimezone
+            });
+            await urlStat.save();
             return res.status(200).json(url)
         } catch (e) {
             next(e)

@@ -4,9 +4,9 @@ import AuthMiddleware from '../libs/AuthMiddleware';
 
 const UrlRouter = Router();
 
-const urlController = new UrlController;
+const urlController = new UrlController; 
 
-UrlRouter.get(`/find/:q`, urlController.findUrl) ;
+UrlRouter.post(`/find/:q`, urlController.findUrl) ;
 UrlRouter.use(AuthMiddleware)
 UrlRouter.get(`/`, urlController.index) ;
 UrlRouter.get(`/shorten-url`, urlController.shortenUrl) ;
