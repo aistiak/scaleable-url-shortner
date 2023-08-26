@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
-
+dotenv.config({ path: `.env.${process?.env?.NODE_ENV || 'dev'}` })
+console.dir({ path: `.env.${process?.env?.NODE_ENV || 'dev'}` })
 const Config = {
     GITHUB_OAUTH_CLIENT_ID: process.env.GITHUB_OAUTH_CLIENT_ID,
     GITHUB_OAUTH_CLIENT_SECRET: process.env.GITHUB_OAUTH_CLIENT_SECRET,

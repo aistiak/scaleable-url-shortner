@@ -1,30 +1,25 @@
 
 import express from 'express';
-import { connectToDatabase } from './libs/connectToDatabase';
-import { setUpManager } from './libs/initManager';
-import { setUpZookeeper } from './libs/setUpZookeeper';
-import { setupRedis } from './connections/redis';
+
 
 
 class App {
     app: express.Application;
-    port: number;
-    constructor(router: any, port: number) {
+    port: number | string;
+    setup : Function ;
+    constructor(router: any, port: number,setup : Function = () => {}) {
         this.app = express();
         this.port = port;
-        this.app.use('/', router)
+        this.app.use('/', router) ;
+        this.setup = setup ;
     }
 
 
     public async serve() {
-        await connectToDatabase()
-        await setupRedis()
-        await setUpZookeeper()
-        // await setUpConfig()
-        await setUpManager()
+        await this.setup()
         this.app.listen(this.port, () => {
             console.log(` --- server started on port ${this.port} ---`)
-        })
+        });
     }
 }
 

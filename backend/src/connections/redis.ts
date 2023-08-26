@@ -1,10 +1,11 @@
 
-const redis = require('redis');
-const { default: Config } = require('./src/config');
 
-var {createClient} = redis ;
+import Config from '../configs';
 
-export const redisClient = createClient({  
+
+const redis = require("redis")
+
+export const redisClient = redis?.createClient({  
     url :Config.REDIS_URL
 }) ;
 
