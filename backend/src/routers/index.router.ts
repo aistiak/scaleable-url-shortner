@@ -8,9 +8,9 @@ import UrlRouter from "./url.router";
 
 
 const AppRouter = Router();
-AppRouter.use(AuthMiddleware)
-AppRouter.use('/auth', AuthRouter);
+
 AppRouter.use('/url', UrlRouter);
+AppRouter.use('/auth', AuthRouter);
 
 export default AppRouter;
 

@@ -7,7 +7,8 @@ import { JWT_SECRET } from '../controllers/auth.controller'
 
 const AuthMiddleware  = (req : any,res : any,next:any) => {
     console.log(req.headers)
-    const token = req.cookies?.[Config.COOKIE_NAME as string]
+    // @ts-ignore
+    const token = req.cookies?.[Config.COOKIE_NAME]
     console.log({token})
     try {
         const decode = jwt.verify(token,JWT_SECRET)
@@ -15,6 +16,7 @@ const AuthMiddleware  = (req : any,res : any,next:any) => {
         req._user = decode?.user
         next() 
     }catch(error){
+        console.log(error)
         return res.sendStatus(401)
     }
 }

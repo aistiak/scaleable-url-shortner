@@ -25,7 +25,7 @@ const Test = () => {
             console.log({code})
             if(!code) return 
             const res1 = await axios({
-                url : `${Config.BACKEND_URL}/${code}` ,
+                url : `${Config.BACKEND_URL}/api/url/find/${code}` ,
                 method : `GET` ,
                 // withCredentials : true 
             })

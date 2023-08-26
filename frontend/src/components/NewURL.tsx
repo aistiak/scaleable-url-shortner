@@ -19,7 +19,7 @@ function NewURL(){
 
                     // short url 
                     const res = await axios({
-                        url : 'http://localhost:4002/srt-url',
+                        url : 'http://localhost:4002/api/url/shorten-url',
                         method :'GET',
                         params : {
                             u : url

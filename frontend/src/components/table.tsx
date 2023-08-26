@@ -94,7 +94,7 @@ function Table() {
         try {
 
             const res :any = await axios({
-                url : 'http://localhost:4002/api/user/urls',
+                url : 'http://localhost:4002/api/url/user-urls',
                 method : `GET`,
                 withCredentials : true 
             })

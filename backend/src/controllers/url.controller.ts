@@ -7,6 +7,10 @@ import { Manager } from "../libs/initManager";
 
 class UrlController {
 
+    public index(req: any, res: any, next: NextFunction) {
+
+        return res.sendStatus(200);
+    }
     public async getUserUrls(req: any, res: any, next: NextFunction) {
         try {
             // const { perPage = 10, currentPage = 1, } = req.query;

@@ -1,17 +1,25 @@
 
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import express from 'express';
+import Config from './config';
 
 
 
 class App {
     app: express.Application;
     port: number | string;
-    setup : Function ;
-    constructor(router: any, port: number,setup : Function = () => {}) {
+    setup: Function;
+    constructor(router: any, port: number, setup: Function = () => { }) {
         this.app = express();
         this.port = port;
-        this.app.use('/', router) ;
-        this.setup = setup ;
+        this.app.use(cookieParser());
+        this.app.use(cors({
+            origin: Config.FRONTEND_URL,
+            credentials: true
+        }))
+        this.app.use('/api', router);
+        this.setup = setup;
     }
 
 

@@ -19,5 +19,3 @@ const setup = async () => {
 const app = new App(AppRouter, config.EXPRESS_PORT,setup)
 
 app.serve()
-
-console.log(`hello`)

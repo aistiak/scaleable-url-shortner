@@ -27,7 +27,7 @@ export default function HomePage() {
             try {
                 console.log({ Config })
                 const res = await axios({
-                    url: `${BACKEND_URL}/api/user`,
+                    url: `${BACKEND_URL}/api/auth/user`,
                     method: 'GET',
                     withCredentials: true
                 })

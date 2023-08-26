@@ -26,7 +26,7 @@ const DashboardPage = () => {
         (async () => {
             try {
                 const res1 = await axios({
-                    url: `${Config.BACKEND_URL}/api/user/urls`,
+                    url: `${Config.BACKEND_URL}/api/url/user-urls`,
                     method: `GET`,
                     withCredentials: true
                 })
