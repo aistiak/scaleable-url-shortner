@@ -5,6 +5,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import NotFoundPage from "./NofFound";
 
+// const dayjs = require('dayjs');
+// const utc = require('dayjs/plugin/utc');
+// import timezone from 'dayjs/plugin/timezone.js'
+// dayjs.extend(utc);
+// dayjs.extend(timezone);
 
 const Test = () => {
 
@@ -27,6 +32,7 @@ const Test = () => {
 
                 const os = navigator.platform;
                 const browserInfo = navigator.userAgent;
+                const country = '' // dayjs?.tz?.zone(Intl.DateTimeFormat()?.resolvedOptions()?.timeZone)?.abbrs?.[0];
                 let device = 'etc';
                 const userAgent = navigator.userAgent;
                 if (userAgent.match(/Mobile/i)) {
@@ -40,7 +46,7 @@ const Test = () => {
                     device = 'desktop'
                 }
 
-                const currentTime = (new Date()).toLocaleTimeString();
+                const currentTime = Date();
                 const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
                 const res1 = await axios({
                     url: `${Config.BACKEND_URL}/api/url/find/${code}`,
@@ -52,7 +58,8 @@ const Test = () => {
                         userAgent,
                         device,
                         currentTime,
-                        userTimezone
+                        userTimezone,
+                        country
                     }
                 })
                 console.log(res1.data)

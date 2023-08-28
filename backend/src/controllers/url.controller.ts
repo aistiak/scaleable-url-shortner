@@ -3,8 +3,8 @@ import UserModel from "../models/user.model";
 import { UrlModel } from "../models/url.model";
 import { Manager } from "../libs/initManager";
 import { UrlStatModel } from "../models/stats.model";
-
-
+import dayjs from 'dayjs'
+const { ObjectId } = require('mongoose');
 
 class UrlController {
 
@@ -80,7 +80,7 @@ class UrlController {
             // return res.redirect(301, url.url)
             // store stat 
             console.log({
-                'req.body' : req.body
+                'req.body': req.body
             })
             const {
                 os,
@@ -91,17 +91,51 @@ class UrlController {
             } = req.body as ReqBody;
 
             const urlStat = new UrlStatModel({
-                url : url.url ,
-                hash : url.hash ,
-                urlOf : url.user ,
+                url: url.url,
+                hash: url.hash,
+                urlOf: url.user,
+                statOf: url._id,
                 os,
                 userAgent,
                 device,
-                currentTime,
+                currentTime: dayjs(currentTime).toDate(),
                 userTimezone
             });
             await urlStat.save();
+
+            let hits = url?.hits ?? 0;
+            hits += 1;
+            await UrlModel.findOneAndUpdate({ hash: url.hash }, {
+                hits,
+            });
+
             return res.status(200).json(url)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    public async getUrlStats(req: any, res: any, next: NextFunction) {
+        try {
+            const { id } = req.body; // url id 
+            // const url = await UrlModel.findById(id).lean() ;
+            const query = {
+
+                statOf: id
+            };
+
+            // const stats = await UrlStatModel.find(query);
+
+            const stats = await UrlStatModel.aggregate([
+                { $group: { _id: { $dateToString: { format: '%Y-%m-%d', date: '$currentTime' } }, count: { $sum: 1 } } },
+                { $sort: { _id: 1 } }
+            ]);
+            const deviceStats = await UrlStatModel.aggregate([
+                { $group: { _id: { device: '$device' }, count: { $sum: 1 } } },
+                { $sort: { '_id.date': 1, count: -1 } }
+            ]);
+            return res.status(200).json({ stats , deviceStats});
+
         } catch (e) {
             next(e)
         }

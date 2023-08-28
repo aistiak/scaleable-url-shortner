@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import App from "./app";
 import config from "./config";
 import { setupRedis } from "./connections/redis";
@@ -7,6 +8,7 @@ import { setUpZookeeper } from "./libs/setUpZookeeper";
 // import { connectToDatabase } from "./libs/connectToDatabase";
 import AppRouter from "./routers/index.router";
 
+mongoose.set('debug', true)
 
 const setup = async () => {
     await connectToDatabase()

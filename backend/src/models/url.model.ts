@@ -13,6 +13,10 @@ const UrlSchema = new Schema({
     user : {
         type : mongoose.Types.ObjectId ,
         ref : 'user'
+    },
+    hits : {
+        type : Number ,
+        default : 0 
     }
 },{
     timestamps: true 
