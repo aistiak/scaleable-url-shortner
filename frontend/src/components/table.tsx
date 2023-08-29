@@ -14,11 +14,11 @@ const DataTable = dynamic(() => import('react-data-table-component'), {
 const columns = [
     {
         name: 'shortened',
-        selector: (row: any) => <div style={{display:'flex',alignItems:'center',cursor:'pointer'}} >
+        selector: (row: any) => <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} >
             <div>
                 {`http://localhost:4001/${Number(row?.hash)?.toString(16)}`}
             </div>
-            <div style={{marginLeft:'5px',fontSize:'20px'}} onClick={()=>{
+            <div style={{ marginLeft: '5px', fontSize: '20px' }} onClick={() => {
                 navigator.clipboard.writeText(`http://localhost:4001/${Number(row?.hash)?.toString(16)}`)
                 toast.success('copied to clipboard')
             }} >
@@ -27,7 +27,15 @@ const columns = [
         </div>
     },
     {
-        name: 'original',
+        name: 'hits',
+        selector: (row: any) => <div>
+            <a href={`/stats/${row._id}`} >
+                { row.hits ?? 0 }
+            </a>
+        </div >
+    },
+{
+    name: 'original',
         selector: (row: any) => <div>
             <span id={`anchor-id-${row._id}`}>
                 {`${row?.url?.slice(0, 50)}...`}
@@ -60,7 +68,7 @@ function Table() {
     const [data, setData] = useState([]);
     const [totalItems, setTotalItems] = useState(0);
     // @ts-ignore
-    const {context,setContext} = useContext(AppContext)
+    const { context, setContext } = useContext(AppContext)
 
 
     const handleRowSelected = useCallback((state: any) => {
@@ -90,81 +98,81 @@ function Table() {
     }, [data, selectedRows, toggleCleared])
 
 
-    const getData = async (page=1) => {
+    const getData = async (page = 1) => {
         try {
 
-            const res :any = await axios({
-                url : 'http://localhost:4002/api/url/user-urls',
-                method : `GET`,
-                withCredentials : true 
+            const res: any = await axios({
+                url: 'http://localhost:4002/api/url/user-urls',
+                method: `GET`,
+                withCredentials: true
             })
             console.log(res)
             const {
-                urls, 
-                currentPage, 
-                perPage, 
-                totalItems 
-            } = res?.data ;
+                urls,
+                currentPage,
+                perPage,
+                totalItems
+            } = res?.data;
 
             return {
-                success : true ,
-                urls, 
-                currentPage, 
-                perPage, 
-                totalItems 
+                success: true,
+                urls,
+                currentPage,
+                perPage,
+                totalItems
             }
-        }catch(error){
+        } catch (error) {
             console.log(error)
             console.log(` --- an exception occurren in getData ---`)
-            return {success : false }
+            return { success: false }
         }
     }
-    useEffect(()=>{
-        (async ()=>{
+    useEffect(() => {
+        (async () => {
             const {
-                success ,
-                urls, 
-                currentPage, 
-                perPage, 
-                totalItems 
+                success,
+                urls,
+                currentPage,
+                perPage,
+                totalItems
             } = await getData()
-            if(!success) toast.error(` colud not fetch data`)
+            if (!success) toast.error(` colud not fetch data`)
             // toast.success(`success`)
             // setData(urls)
             // setTotalItems(totalItems)
 
             setContext({
-                ...context ,
-                data : {
-                    urls ,
+                ...context,
+                data: {
+                    urls,
                     totalItems
                 }
             })
         })()
-    },[])
-    const handlePageChange = async (arg : number) => {
-        console.log({arg})
+    }, [])
+    const handlePageChange = async (arg: number) => {
+        console.log({ arg })
     }
     return (
         <>
-        {/* {JSON.stringify(context.data.totalItems)} */}
-        <DataTable
-            title="Shortened URLs"
-            // @ts-ignore
-            columns={columns}
-            data={context?.data?.urls || []}
-            paginationRowsPerPageOptions={[8]}
-            paginationPerPage={8}
-            paginationTotalRows={context?.data?.totalItems || 0}
-            onChangePage={handlePageChange}
-            // progressPending={true}
-            selectableRows
-            contextActions={contextActions}
-            onSelectedRowsChange={handleRowSelected}
-            clearSelectedRows={toggleCleared}
-            pagination
-            paginationServer={false}
-        />
+            {/* {JSON.stringify(context.data.totalItems)} */}
+            <DataTable
+                title="Shortened URLs"
+                // @ts-ignore
+                columns={columns}
+                data={context?.data?.urls || []}
+                paginationRowsPerPageOptions={[8]}
+                paginationPerPage={8}
+                paginationTotalRows={context?.data?.totalItems || 0}
+                onChangePage={handlePageChange}
+                // progressPending={true}
+                selectableRows
+                contextActions={contextActions}
+                onSelectedRowsChange={handleRowSelected}
+                clearSelectedRows={toggleCleared}
+                pagination
+                paginationServer={false}
+            />
         </>
     )
 }

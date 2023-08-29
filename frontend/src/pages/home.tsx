@@ -23,7 +23,7 @@ const Home = () => {
 
             {
                 // context?.user ? <DashboardPage/> : <LoginPage/>
-                context?.user ? <Dashboard/> : <LoginPage/>
+                !context?.user ?  <LoginPage/> : <Dashboard/> 
                 
             }
         </div>

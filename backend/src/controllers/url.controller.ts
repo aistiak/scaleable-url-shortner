@@ -124,6 +124,7 @@ class UrlController {
                 statOf: id
             };
 
+            const url = await UrlModel.findById(id).lean() ;
             // const stats = await UrlStatModel.find(query);
 
             const stats = await UrlStatModel.aggregate([
@@ -134,7 +135,7 @@ class UrlController {
                 { $group: { _id: { device: '$device' }, count: { $sum: 1 } } },
                 { $sort: { '_id.date': 1, count: -1 } }
             ]);
-            return res.status(200).json({ stats , deviceStats});
+            return res.status(200).json({ stats , deviceStats, url});
 
         } catch (e) {
             next(e)

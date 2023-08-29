@@ -48,7 +48,7 @@ const DashboardPage = () => {
                 <button onClick={
                     () => {
                         axios({
-                            url: `${Config.BACKEND_URL}/api/logout`,
+                            url: `${Config.BACKEND_URL}/api/auth/logout`,
                             method: 'GET',
                             withCredentials: true, // without this wont log out
                         })

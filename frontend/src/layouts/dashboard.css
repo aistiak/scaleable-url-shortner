@@ -25,6 +25,7 @@ body {
 }
 .greet , .logout {
     margin: 10px;
+    cursor: pointer;
 }
 
 .children {
